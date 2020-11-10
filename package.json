@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -12,5 +12,8 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/cfagudelo96/MeinkraftServerStarter/issues"
+  },
+  "dependencies": {
+    "puppeteer": "^5.4.1"
   }
 }
