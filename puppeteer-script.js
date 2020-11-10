@@ -31,8 +31,8 @@ async function signIn(page) {
 
 async function selectServer(page) {
   // TODO: Use environment variables or something
-  serverId = 'yVkfHQgKvEMW6mVi';
-  serverButton = await page.$(`[data-id=${serverId}]`);
+  //serverId = 'yVkfHQgKvEMW6mVi';
+  serverButton = await page.$('.server');
   await serverButton.click();
 
   await page.waitForNavigation();
