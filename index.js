@@ -20,4 +20,4 @@ client.on("message", function(message) {
     }
 });
 
-client.login("TOKEN");
+client.login("Nzc1NTI1NTYwNTc5MjYwNDM5.X6nmdg.uRmboXb-WdhJUQtHZzgCLnrtd0A");
