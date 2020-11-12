@@ -1,4 +1,23 @@
+const Discord = require('./node_modules/discord.js')
 const puppeteerScript = require('./puppeteer-script')
 
-// TODO Make the method call when the bot receives the command
-puppeteerScript.launchServer();
+const client = new Discord.Client();
+
+const prefix = "!";
+
+client.on("message", function(message) {
+    if (message.author.bot) return;
+    if (!message.content.startsWith(prefix)) return;
+
+    const commandBody = message.content.slice(prefix.length);
+    const args = commandBody.split(' ');
+    const command = args.shift().toLowerCase();
+
+    if (command === "start") {
+        const timeTaken = Date.now() - message.createdTimestamp;
+        message.reply(`initializing minecraft server!`);
+        puppeteerScript.launchServer();
+    }
+});
+
+client.login("Nzc1NTI1NTYwNTc5MjYwNDM5.X6nmdg.uRmboXb-WdhJUQtHZzgCLnrtd0A");

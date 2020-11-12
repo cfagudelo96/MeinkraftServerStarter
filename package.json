@@ -14,6 +14,7 @@
     "url": "https://github.com/cfagudelo96/MeinkraftServerStarter/issues"
   },
   "dependencies": {
+    "discord.js": "^12.4.1",
     "puppeteer": "^5.4.1"
   }
 }
