@@ -25,6 +25,7 @@ client.on('message', async function(message) {
       await puppeteerScript.launchServer();
       message.reply('Ok I clicked the button to start the server! Now we wait...');
     } catch(error) {
+      console.error(error);
       if (error === puppeteerScript.SERVER_ON_EXCEPTION) {
         message.reply('The server is already on you dumb dumb...');
       } else {
@@ -44,6 +45,7 @@ client.on('message', async function(message) {
         message.reply('Ok I have no idea what is the server status right now, call poof for help!');
       }
     } catch(error) {
+      console.error(error);
       message.reply(`I fucked up and I didn't check the server status, please ask mama poof for help...`);
     }
   }
