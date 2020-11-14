@@ -1,20 +1,11 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra')
+const StealthPlugin = require('puppeteer-extra-plugin-stealth')
+
+puppeteer.use(StealthPlugin());
 
 const puppeteerScript = {};
 
-const puppeteerBrowserArgs = [
-  '--no-sandbox',
-  '--disable-setuid-sandbox',
-  '--disable-infobars',
-  '--window-position=0,0',
-  '--ignore-certifcate-errors',
-  '--ignore-certifcate-errors-spki-list',
-  '--user-agent="Mozilla/5.0 (Macintosh; Googlebot/2.1 (+http://www.google.com/bot.html))'
-  + 'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"',
-];
-
 const puppeteerOptions = {
-  args: puppeteerBrowserArgs,
   headless: true,
   ignoreHTTPSErrors: true,
   userDataDir: './tmp',
