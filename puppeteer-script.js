@@ -2,6 +2,28 @@ const puppeteer = require('puppeteer');
 
 const puppeteerScript = {};
 
+const puppeteerBrowserArgs = [
+  '--no-sandbox',
+  '--disable-setuid-sandbox',
+  '--disable-infobars',
+  '--window-position=0,0',
+  '--ignore-certifcate-errors',
+  '--ignore-certifcate-errors-spki-list',
+  '--user-agent="Mozilla/5.0 (Macintosh; Googlebot/2.1 (+http://www.google.com/bot.html))'
+  + 'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"',
+];
+
+const puppeteerOptions = {
+  args: puppeteerBrowserArgs,
+  headless: true,
+  ignoreHTTPSErrors: true,
+  userDataDir: './tmp',
+  defaultViewport: {
+    width: 1920,
+    height: 1080,
+  },
+};
+
 puppeteerScript.SERVER_ON_EXCEPTION = new Error("ServerAlreadyOn")
 
 puppeteerScript.STATUS_ON = 'ON';
@@ -13,34 +35,40 @@ puppeteerScript.STATUS_LOADING = 'LOADING';
 puppeteerScript.UNKNOWN_STATUS = 'UNKNOWN';
 
 puppeteerScript.launchServer = async () => {
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox']
-  });
+  const browser = await puppeteer.launch(puppeteerOptions);
   const page = await browser.newPage();
   await page.goto('https://aternos.org/go/');
-
-  await signIn(page);
-  await selectServer(page);
-  await validateServerOff(page);
-  await pushOnButton(page);
-
+  try {
+    await signIn(page);
+    await selectServer(page);
+    await validateServerOff(page);
+    await pushOnButton(page);
+  } catch (error) {
+    await takeErrorScreenshot(page)
+    throw error;
+  }
   await browser.close();
 }
 
 puppeteerScript.getStatus = async () => {
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox']
-  });
+  const browser = await puppeteer.launch(puppeteerOptions);
   const page = await browser.newPage();
   await page.goto('https://aternos.org/go/');
-
-  await signIn(page);
-  await selectServer(page);
-  const status = await getServerStatus(page);
+  let status = this.UNKNOWN_STATUS;
+  try {
+    await signIn(page);
+    await selectServer(page);
+    status = await getServerStatus(page);
+  } catch (error) {
+    await takeErrorScreenshot(page)
+    throw error;
+  }
   await browser.close();
   return status;
+}
+
+function takeErrorScreenshot(page) {
+  return page.screenshot({ path: `${new Date().getTime()}-error.png` });
 }
 
 async function signIn(page) {

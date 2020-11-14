@@ -6,7 +6,7 @@ const client = new Discord.Client();
 const prefix = '!';
 
 process.on('uncaughtException', function (err) {
-  console.log("Uncaught exception!");
+  console.log('Uncaught exception!');
   console.error(err);
 });
 
